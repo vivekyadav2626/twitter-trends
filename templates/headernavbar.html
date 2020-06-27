@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #563d7c;">
+  <a class="navbar-brand" href="#">Trends</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="#"> Showing Trends for  <b>{{city}}</b> </a>
+        </li>
+      </ul>
+
+      <div class="flex-grow-1 d-flex">
+          <form class="form-inline flex-nowrap bg-light mx-0 mx-lg-auto rounded p-1">
+            <select class="js-matcher form-control mr-sm-2" name="city" id="city_list">
+              <option></option>
+                {% for all_india in all_india_trends_list %}
+                    <option>{{all_india}}</option>
+                {% endfor %}
+            </select>
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+      </div>
+    </div>
+</nav>

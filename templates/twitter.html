@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+{% load twittertags %}
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <meta charset="UTF-8">
+    <title>Trending - {{city}}</title>
+    <style>
+        .table td,
+        .table th {
+            font-size: 12px;
+        }
+
+        .section-title-row {
+            display: flex !important;
+            overflow-x: auto !important;
+        }
+
+        .section-title {
+            min-width: 25% !important;
+            padding: 10px 15px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        {% include "headernavbar.html" %}
+    </header>
+    <div class="container section-title-row">
+        <div class="row">
+            {% if all_trend_tables.count > 0 %}
+                {% for trend_table in all_trend_tables.page_range %}
+                <div class="col-sm-12 col-md-6 col-lg-4 section-title">
+                    <div class="card">
+                        <div class="card-header">
+                            <center> {{showtime|timedeltainmins:forloop.counter0}} </center>
+                        </div>
+                        <table class="card-table table table-striped table-hover table-responsive">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="width:12%">
+                                        <center>ID</center>
+                                    </th>
+                                    <th scope="col" style="width:12%">
+                                        <center>Trend Name</center>
+                                    </th>
+                                    <th scope="col" style="width:12%">
+                                        <center>Count</center>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for obj in trends|lookup:forloop.counter0 %}
+                                <tr>
+                                    <td>
+                                        <center>{{forloop.counter}}</center>
+                                    </td>
+                                    <td>
+                                        <center><a href="{{ obj.trend_url }}" target="_blank">{{ obj.trend_name }} </a>
+                                        </center>
+                                    </td>
+                                    <td>
+                                        <center> {{obj.trend_count|countcleanup}} </center>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div> Record not found.</div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script>
+    function matchCustom(params, data) {
+    if ($.trim(params.term) === '') {
+      return data;
+    }
+
+    if (typeof data.text === 'undefined') {
+      return null;
+    }
+
+    if (data.text.toLowerCase().indexOf(params.term.toLowerCase()) > -1) {
+      var modifiedData = $.extend({}, data, true);
+      modifiedData.text += ' (matched)';
+      return modifiedData;
+    }
+    return null;
+}
+
+$(".js-matcher").select2({
+  placeholder: "--Search--",
+  matcher: matchCustom,
+  dropdownAutoWidth : true
+});
+</script>
+</html>

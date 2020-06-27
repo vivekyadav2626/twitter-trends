@@ -1,0 +1,10 @@
+pip
+django
+gunicorn
+requests
+djangorestframework
+psycopg2-binary==2.8.4
+psycopg2==2.7.5
+django-heroku
+python-dotenv
+tweepy
